@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical"
+    android:background="?android:attr/selectableItemBackground">
+
+    <!-- Color Indicator -->
+    <View
+        android:id="@+id/indicatorView"
+        android:layout_width="4dp"
+        android:layout_height="32dp"
+        android:background="#28a745"
+        android:layout_marginEnd="12dp" />
+
+    <!-- Category Name -->
+    <TextView
+        android:id="@+id/tvCategoryName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Normal Traffic"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#212529" />
+
+    <!-- Category Count -->
+    <TextView
+        android:id="@+id/tvCategoryCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="14.5K"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#212529"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Category Percentage -->
+    <TextView
+        android:id="@+id/tvCategoryPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="17%"
+        android:textSize="12sp"
+        android:textColor="#6c757d"
+        android:background="#f8f9fa"
+        android:padding="4dp"
+        android:minWidth="40dp"
+        android:gravity="center" />
+
+</LinearLayout>

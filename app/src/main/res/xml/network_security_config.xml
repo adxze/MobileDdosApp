@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">web-production-8fe18.up.railway.app</domain>
+        <domain includeSubdomains="true">web-production-4a62.up.railway.app</domain>
+    </domain-config>
+</network-security-config>
