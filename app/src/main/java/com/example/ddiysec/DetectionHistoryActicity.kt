@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import android.widget.ImageButton
+import android.view.WindowManager
 import java.util.*
 
 data class DetectionRecord(
@@ -68,7 +70,8 @@ data class DetectionRecord(
 class DetectionHistoryActivity : AppCompatActivity() {
 
     private lateinit var btnBack: ImageButton
-    private lateinit var btnRefresh: Button
+//    private lateinit var btnRefresh: Button
+    private lateinit var btnRefresh: ImageButton
     private lateinit var tvCurrentThreatLevel: TextView
     private lateinit var tvTotalDetections: TextView
     private lateinit var tvCriticalCount: TextView
@@ -83,13 +86,16 @@ class DetectionHistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detection_history)
+        window.insetsController?.let {
+            it.hide(android.view.WindowInsets.Type.statusBars())
+            it.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
         supportActionBar?.hide()
 
         initViews()
         setupRecyclerView()
         setupListeners()
 
-        // Load data
         loadDetectionHistory()
         loadStatistics()
     }
@@ -108,7 +114,6 @@ class DetectionHistoryActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         historyAdapter = DetectionHistoryAdapter(detectionHistory) { record ->
-            // Handle detail view click if needed
             showDetailToast(record)
         }
         rvDetectionHistory.layoutManager = LinearLayoutManager(this)
@@ -135,12 +140,10 @@ class DetectionHistoryActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Fetch results from the API
                 val results = ApiClient.liveApiService.getResults(
                     ApiClient.getApiKey("live")
                 )
 
-                // Convert API response to DetectionRecord objects
                 val records = results.mapNotNull { result ->
                     try {
                         DetectionRecord(
@@ -215,7 +218,6 @@ class DetectionHistoryActivity : AppCompatActivity() {
         tvTotalDetections.text = NumberFormat.getNumberInstance().format(stats.total_detections)
         tvCriticalCount.text = NumberFormat.getNumberInstance().format(stats.critical_detections)
 
-        // Determine current threat level based on recent activity
         val recentThreats = stats.last_24h["intrusion"] ?: 0
         val recentNormal = stats.last_24h["normal"] ?: 0
         val total = recentThreats + recentNormal
@@ -279,7 +281,6 @@ class DetectionHistoryActivity : AppCompatActivity() {
         return try {
             var timestamp = isoString
 
-            // Handle timestamp format like your web dashboard
             if (timestamp.contains(' ') && !timestamp.contains('T')) {
                 timestamp = timestamp.replace(' ', 'T')
             }

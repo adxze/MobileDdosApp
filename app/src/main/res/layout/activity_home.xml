@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:background="#f8f9fa">
 
-    <!-- Header Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -37,7 +36,6 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- API Status Card (MOVED HERE FROM BOTTOM) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardApiStatus"
         android:layout_width="match_parent"
@@ -120,7 +118,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- TabLayout for Navigation -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"

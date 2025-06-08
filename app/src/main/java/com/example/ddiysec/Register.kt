@@ -55,7 +55,6 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        // Check if user already exists
         if (databaseHelper.checkUserExists(email)) {
             Toast.makeText(this, "User already exists with this email", Toast.LENGTH_SHORT).show()
             return
@@ -65,7 +64,6 @@ class RegisterActivity : AppCompatActivity() {
         val userId = databaseHelper.addUser(name, email, password)
         if (userId > 0) {
             Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-            // Navigate to login screen
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } else {

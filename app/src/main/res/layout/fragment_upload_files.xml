@@ -13,7 +13,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Upload Files Main Card (KEEP YOUR EXISTING ONE) -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,10 +27,8 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <!-- Header Section -->
 
 
-                <!-- Upload Area -->
                 <RelativeLayout
                     android:id="@+id/uploadArea"
                     android:layout_width="match_parent"
@@ -149,7 +146,6 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Progress Bar -->
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
@@ -161,7 +157,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- ENHANCED RESULTS CARD (REPLACE YOUR OLD SIMPLE ONE) -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardResults"
             android:layout_width="match_parent"
@@ -230,7 +225,6 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- Threat Level Banner -->
                 <LinearLayout
                     android:id="@+id/threatLevelBanner"
                     android:layout_width="match_parent"
@@ -278,7 +272,6 @@
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
 
-                <!-- Quick Stats Grid -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -370,7 +363,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Visual Chart Section -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -392,7 +384,6 @@
                         android:layout_height="180dp" />
                 </LinearLayout>
 
-                <!-- Attack Types Breakdown -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -416,7 +407,6 @@
                         android:nestedScrollingEnabled="false" />
                 </LinearLayout>
 
-                <!-- Analysis Details -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -439,7 +429,6 @@
                         android:background="#f8f9fa"
                         android:padding="12dp">
 
-                        <!-- File Info -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -464,7 +453,6 @@
                                 android:textColor="#212529" />
                         </LinearLayout>
 
-                        <!-- File Size -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -489,7 +477,6 @@
                                 android:textColor="#212529" />
                         </LinearLayout>
 
-                        <!-- Analysis Method -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -513,7 +500,6 @@
                                 android:textColor="#212529" />
                         </LinearLayout>
 
-                        <!-- Processing Time -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -552,7 +538,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="🛡️ Security Recommendations"
+                        android:text="Security Recommendations"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="#664d03"

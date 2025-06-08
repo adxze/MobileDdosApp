@@ -18,7 +18,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private const val COLUMN_USER_PASSWORD = "user_password"
     }
 
-    // Creating Tables
     override fun onCreate(db: SQLiteDatabase) {
         val CREATE_USER_TABLE = ("CREATE TABLE " + TABLE_USER + "("
                 + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -29,7 +28,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS $TABLE_USER")
 
         onCreate(db)
@@ -43,13 +41,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         values.put(COLUMN_USER_EMAIL, email)
         values.put(COLUMN_USER_PASSWORD, password)
 
-        // Inserting Row
         val id = db.insert(TABLE_USER, null, values)
         db.close()
         return id
     }
 
-    // Check if user exists
     fun checkUser(email: String, password: String): Boolean {
         val db = this.readableDatabase
         val selection = "$COLUMN_USER_EMAIL = ? AND $COLUMN_USER_PASSWORD = ?"

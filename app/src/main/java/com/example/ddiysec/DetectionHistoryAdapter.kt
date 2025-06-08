@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import android.view.WindowManager
 import java.util.*
 
 class DetectionHistoryAdapter(
@@ -46,15 +47,12 @@ class DetectionHistoryAdapter(
         val severity = record.getSeverityLevel()
         val totalConnections = record.getTotalConnections()
 
-        // Format timestamp
         holder.tvTimestamp.text = formatTimestamp(record.timestamp)
 
-        // Set severity badge
         holder.tvSeverityBadge.text = severity
         val badgeColor = record.getSeverityColor()
         holder.tvSeverityBadge.setBackgroundColor(badgeColor)
 
-        // Set threat icon and color
         if (ddosPercentage >= 20) {
             holder.ivThreatIcon.setImageResource(R.drawable.ic_exclamation_triangle)
             holder.ivThreatIcon.setColorFilter(Color.parseColor("#dc3545"))
@@ -63,7 +61,6 @@ class DetectionHistoryAdapter(
             holder.ivThreatIcon.setColorFilter(Color.parseColor("#28a745"))
         }
 
-        // Set status message
         if (ddosPercentage >= 20) {
             holder.tvStatusMessage.text = "$ddosPercentage% DDoS traffic detected"
             holder.tvStatusMessage.setTextColor(Color.parseColor("#dc3545"))
@@ -80,7 +77,6 @@ class DetectionHistoryAdapter(
             holder.tvConnectionDetails.text = "${numberFormatter.format(totalConnections)} connections analyzed"
         }
 
-        // Show/hide attack type
         if (ddosPercentage > 0 && !record.attack_type.isNullOrEmpty() &&
             record.attack_type != "Unknown" && record.attack_type != "Mixed / Generic DDoS") {
             holder.layoutAttackType.visibility = View.VISIBLE
@@ -89,14 +85,12 @@ class DetectionHistoryAdapter(
             holder.layoutAttackType.visibility = View.GONE
         }
 
-        // Setup expanded details
         holder.tvDetailNormalCount.text = numberFormatter.format(record.normal_count)
         holder.tvDetailIntrusionCount.text = numberFormatter.format(record.intrusion_count)
         holder.tvDetailPercentage.text = "$ddosPercentage%"
         holder.tvDetailCaptureId.text = record.capture_id.take(8) + "..."
         holder.tvDetailHostname.text = record.hostname
 
-        // Set percentage color
         holder.tvDetailPercentage.setTextColor(
             when {
                 ddosPercentage < 20 -> Color.parseColor("#28a745")
@@ -127,25 +121,18 @@ class DetectionHistoryAdapter(
 
     override fun getItemCount(): Int = detectionHistory.size
 
-    private fun formatTimestamp(isoString: String): String {
+    private fun formatTimestamp(isoString: String?): String {
+        if (isoString.isNullOrEmpty()) {
+            return "No date"
+        }
+
         return try {
-            var timestamp = isoString
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.getDefault())
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC") // input is UTC
+            val date = inputFormat.parse(isoString)
 
-            // Handle timestamp format like your web dashboard
-            if (timestamp.contains(' ') && !timestamp.contains('T')) {
-                timestamp = timestamp.replace(' ', 'T')
-            }
-
-            if (!timestamp.contains('Z') && !timestamp.contains('+')) {
-                timestamp = timestamp + 'Z'
-            }
-
-            val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).parse(timestamp)
-
-            // Format to Jakarta time
             val outputFormat = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
-            outputFormat.timeZone = TimeZone.getTimeZone("Asia/Jakarta")
-
+            outputFormat.timeZone = TimeZone.getTimeZone("Asia/Jakarta") // Convert to Jakarta time
             outputFormat.format(date ?: Date())
         } catch (e: Exception) {
             "Invalid date"

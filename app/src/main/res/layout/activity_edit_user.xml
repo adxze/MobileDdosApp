@@ -270,7 +270,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Danger Zone Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

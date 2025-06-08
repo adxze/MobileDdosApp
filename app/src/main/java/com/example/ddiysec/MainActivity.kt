@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.show()
         setContentView(R.layout.activity_main)
 
-        // Handle edge-to-edge display
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -44,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         // Initialize database helper
         databaseHelper = DatabaseHelper(this)
 
-        // Set listeners
         btnLogin.setOnClickListener { loginUser() }
         btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -55,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
 
-        // Validate input
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
             return
@@ -63,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
 
         // DATA ADMIN MASIH HARD CODED
-        // Check for admin login (You can replace these with your desired admin credentials)
         if (email == "admin@app.com" && password == "admin123") {
             Toast.makeText(this, "Admin login successful", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, AdminActivity::class.java))
@@ -73,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         // Check if user exists
         if (databaseHelper.checkUser(email, password)) {
             Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-            // Navigate to home screen
             startActivity(Intent(this, HomeActivity::class.java))
             finish()
         } else {

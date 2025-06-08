@@ -26,7 +26,6 @@ import java.util.*
 
 class LiveDetectionFragment : Fragment() {
 
-    // Status Views
     private lateinit var cardStatus: CardView
     private lateinit var tvStatusTitle: TextView
     private lateinit var tvStatusMessage: TextView
@@ -34,7 +33,6 @@ class LiveDetectionFragment : Fragment() {
     private lateinit var tvLiveBadge: TextView
     private lateinit var ivStatusIcon: ImageView
 
-    // Enhanced Live Statistics Views
     private lateinit var cardLiveStatistics: CardView
     private lateinit var tvTotalConnections: TextView
     private lateinit var tvNormalTraffic: TextView
@@ -43,12 +41,10 @@ class LiveDetectionFragment : Fragment() {
     private lateinit var tvCurrentThreatPercentage: TextView
     private lateinit var tvUptime: TextView
 
-    // Detection History Views - CHANGED TO USE RECYCLERVIEW
     private lateinit var tvTotalScans: TextView
     private lateinit var rvRecentDetections: RecyclerView
     private lateinit var btnViewFullHistory: com.google.android.material.button.MaterialButton
 
-    // Real data variables
     private var isLiveMonitoring = true
     private val liveUpdateHandler = Handler(Looper.getMainLooper())
     private var currentStats: StatisticsResponse? = null
@@ -83,7 +79,7 @@ class LiveDetectionFragment : Fragment() {
         tvLiveBadge = view.findViewById(R.id.tvLiveBadge)
         ivStatusIcon = view.findViewById(R.id.ivStatusIcon)
 
-        // Enhanced live statistics views
+        // live statistics views
         cardLiveStatistics = view.findViewById(R.id.cardLiveStatistics)
         tvTotalConnections = view.findViewById(R.id.tvTotalConnections)
         tvNormalTraffic = view.findViewById(R.id.tvNormalTraffic)
@@ -107,7 +103,6 @@ class LiveDetectionFragment : Fragment() {
         rvRecentDetections.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recentHistoryAdapter
-            // Only show 3 most recent items
             isNestedScrollingEnabled = false
         }
     }
@@ -122,7 +117,6 @@ class LiveDetectionFragment : Fragment() {
     private fun loadRealData() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Load both statistics and recent detection history
                 val stats = ApiClient.liveApiService.getStatistics(
                     ApiClient.getApiKey("live")
                 )
@@ -131,7 +125,6 @@ class LiveDetectionFragment : Fragment() {
                     ApiClient.getApiKey("live")
                 )
 
-                // Convert results to DetectionRecord objects (same as DetectionHistoryActivity)
                 val records = results.mapNotNull { result ->
                     try {
                         DetectionRecord(
@@ -156,13 +149,11 @@ class LiveDetectionFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     currentStats = stats
 
-                    // Get the most recent detection record for live status
                     lastDetectionRecord = records.firstOrNull()
 
-                    // Update all UI components with real data
                     updateLiveStatisticsFromReal(stats, lastDetectionRecord)
                     updateStatusCardFromReal(lastDetectionRecord, stats)
-                    updateRecentDetectionHistory(records.take(3)) // Show only 3 most recent
+                    updateRecentDetectionHistory(records.take(3))
 
                     tvTotalScans.text = "${records.size} scans total"
                     tvLastUpdated.text = "Last updated: ${getCurrentTime()}"
@@ -210,7 +201,6 @@ class LiveDetectionFragment : Fragment() {
 
             updateStatusCardDisplay(ddosPercentage, intrusionCount, totalConnections)
         } else {
-            // Use overall statistics if no recent record
             val recentThreats = stats.last_24h["intrusion"] ?: 0
             val recentNormal = stats.last_24h["normal"] ?: 0
             val total = recentThreats + recentNormal
@@ -233,7 +223,7 @@ class LiveDetectionFragment : Fragment() {
     private fun startLiveMonitoring() {
         if (!isLiveMonitoring) return
 
-        // Start real-time updates by periodically calling the API
+        //  real-time updates  periodically calling  API
         startRealTimeUpdates()
     }
 
@@ -241,13 +231,12 @@ class LiveDetectionFragment : Fragment() {
         val updateRunnable = object : Runnable {
             override fun run() {
                 if (isLiveMonitoring) {
-                    // Load real data instead of simulating
                     loadRealData()
-                    liveUpdateHandler.postDelayed(this, 30000) // Update every 30 seconds
+                    liveUpdateHandler.postDelayed(this, 30000)
                 }
             }
         }
-        liveUpdateHandler.postDelayed(updateRunnable, 30000) // First update in 30 seconds
+        liveUpdateHandler.postDelayed(updateRunnable, 30000)
     }
 
     private fun updateThreatLevelDisplay(threatPercentage: Int) {

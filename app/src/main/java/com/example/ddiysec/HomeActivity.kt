@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import android.view.WindowManager
 import java.util.*
 
 class HomeActivity : AppCompatActivity() {
@@ -25,7 +26,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: FragmentPagerAdapter
 
-    // API Status Views (ONLY THESE REMAIN IN MAIN ACTIVITY)
     private lateinit var statusDotLive: View
     private lateinit var statusDotCsv: View
     private lateinit var tvApiLastChecked: TextView
@@ -36,6 +36,11 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         supportActionBar?.hide()
+
+        window.insetsController?.let {
+            it.hide(android.view.WindowInsets.Type.statusBars())
+            it.systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
 
         initViews()
         setupViewPager()
@@ -76,16 +81,15 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+        tabLayout.setTabIconTint(getColorStateList(R.color.tab_icon_color))
     }
 
-    //Get status Update
     fun updateLiveDetectionStatus(ddosPercentage: Int, intrusionCount: Int, totalConnections: Int) {
         val fragments = supportFragmentManager.fragments
         val liveFragment = fragments.find { it is LiveDetectionFragment } as? LiveDetectionFragment
         liveFragment?.updateStatusFromUpload(ddosPercentage, intrusionCount, totalConnections)
     }
 
-    // Method to switch to Live Detection tab (useful for upload results)
     fun switchToLiveDetectionTab() {
         viewPager.currentItem = 0
     }

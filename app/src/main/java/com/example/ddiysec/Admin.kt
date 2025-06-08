@@ -21,21 +21,16 @@ class AdminActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
-        // Initialize views
         recyclerView = findViewById(R.id.recycler_view_users)
         tvUserCount = findViewById(R.id.tv_user_count)
         btnLogout = findViewById(R.id.btn_admin_logout)
 
-        // Set up RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Initialize database helper
         databaseHelper = DatabaseHelper(this)
 
-        // Load users
         loadUsers()
 
-        // Set logout button click listener
         btnLogout.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -63,7 +58,6 @@ class AdminActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
     }
 
     override fun onUserLongClick(user: User, position: Int) {
-        // Show delete confirmation dialog
         android.app.AlertDialog.Builder(this)
             .setTitle("Delete User")
             .setMessage("Are you sure you want to delete ${user.name}?")
@@ -71,7 +65,6 @@ class AdminActivity : AppCompatActivity(), UserAdapter.OnUserClickListener {
                 if (databaseHelper.deleteUser(user.id)) {
                     Toast.makeText(this, "User deleted successfully", Toast.LENGTH_SHORT).show()
 
-                    // Refresh the list
                     loadUsers()
                 } else {
                     Toast.makeText(this, "Failed to delete user", Toast.LENGTH_SHORT).show()

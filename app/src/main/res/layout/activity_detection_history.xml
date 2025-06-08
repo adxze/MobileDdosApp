@@ -53,15 +53,15 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnRefresh"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:text="Refresh"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:background="@drawable/badge_safe_background"
-                android:paddingHorizontal="12dp" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_refresh"
+                android:background="@drawable/circular_button_background"
+                android:scaleType="center"
+                app:tint="@android:color/white"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

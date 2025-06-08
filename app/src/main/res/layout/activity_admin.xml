@@ -173,7 +173,6 @@
                         android:textColor="#333333" />
                 </LinearLayout>
 
-                <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -188,7 +187,6 @@
                     android:padding="8dp"
                     android:clipToPadding="false" />
 
-                <!-- Empty State (if needed) -->
                 <LinearLayout
                     android:id="@+id/empty_state"
                     android:layout_width="match_parent"
@@ -224,7 +222,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -14,7 +14,6 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 
-// API response models
 data class PredictionResponse(
     val success: Boolean,
     val result_counts: Map<String, Int>,
@@ -91,7 +90,7 @@ interface LiveApiService {
     ): StatisticsResponse
 }
 
-// API Configuration Object
+// API Configuration Object API Keys Will be replaced a mounth or more after the app is submitted
 object ApiConfig {
     // API untuk deteksi menggunakan CSV file
     const val CSV_API_BASE = "https://web-production-4a62.up.railway.app/"
@@ -101,9 +100,6 @@ object ApiConfig {
     const val LIVE_API_BASE = "https://web-production-8fe18.up.railway.app/"
     const val LIVE_API_KEY = "this-is-api-key-lol"
 
-    /**
-     * Fungsi helper untuk mengakses API yang tepat berdasarkan jenis deteksi
-     */
     fun getApiBase(type: String = "csv"): String {
         return if (type.lowercase() == "live") LIVE_API_BASE else CSV_API_BASE
     }
@@ -131,7 +127,6 @@ object ApiClient {
             .build()
     }
 
-    // CSV API Client
     private val csvRetrofit by lazy {
         createRetrofit(ApiConfig.CSV_API_BASE)
     }
@@ -149,7 +144,6 @@ object ApiClient {
         liveRetrofit.create(LiveApiService::class.java)
     }
 
-    // Convenience methods that match your web helper functions
     fun getApiService(type: String = "csv"): Any {
         return if (type.lowercase() == "live") liveApiService else csvApiService
     }

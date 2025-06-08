@@ -36,7 +36,6 @@ import java.util.*
 
 class UploadFilesFragment : Fragment() {
 
-    // Upload Views
     private lateinit var uploadArea: RelativeLayout
     private lateinit var fileInfoContainer: LinearLayout
     private lateinit var tvFileName: TextView
@@ -46,7 +45,6 @@ class UploadFilesFragment : Fragment() {
     private lateinit var btnAnalyze: Button
     private lateinit var progressBar: ProgressBar
 
-    // Enhanced Results Views
     private lateinit var cardResults: CardView
     private lateinit var ivThreatIcon: ImageView
     private lateinit var tvAnalysisTime: TextView
@@ -65,7 +63,6 @@ class UploadFilesFragment : Fragment() {
     private lateinit var layoutRecommendations: LinearLayout
     private lateinit var tvRecommendations: TextView
 
-    // Action Buttons
     private lateinit var btnCloseResults: Button
     private lateinit var btnViewInLiveDetection: Button
     private lateinit var btnAnalyzeAnother: Button
@@ -108,7 +105,6 @@ class UploadFilesFragment : Fragment() {
         btnAnalyze = view.findViewById(R.id.btnAnalyze)
         progressBar = view.findViewById(R.id.progressBar)
 
-        // Enhanced Results views
         cardResults = view.findViewById(R.id.cardResults)
         ivThreatIcon = view.findViewById(R.id.ivThreatIcon)
         tvAnalysisTime = view.findViewById(R.id.tvAnalysisTime)
@@ -127,7 +123,6 @@ class UploadFilesFragment : Fragment() {
         layoutRecommendations = view.findViewById(R.id.layoutRecommendations)
         tvRecommendations = view.findViewById(R.id.tvRecommendations)
 
-        // Action buttons
         btnCloseResults = view.findViewById(R.id.btnCloseResults)
         btnViewInLiveDetection = view.findViewById(R.id.btnViewInLiveDetection)
         btnAnalyzeAnother = view.findViewById(R.id.btnAnalyzeAnother)
@@ -138,7 +133,6 @@ class UploadFilesFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // Upload area click - open file picker
         uploadArea.setOnClickListener {
             openFilePicker()
         }
@@ -263,7 +257,6 @@ class UploadFilesFragment : Fragment() {
                 (intrusionCount * 100) / totalConnections
             } else 0
 
-            // Update detailed results
             updateDetailedResults(
                 totalConnections,
                 normalCount,
@@ -273,16 +266,13 @@ class UploadFilesFragment : Fragment() {
                 response.result_counts
             )
 
-            // Update Live Detection status
             (activity as? HomeActivity)?.updateLiveDetectionStatus(ddosPercentage, intrusionCount, totalConnections)
 
-            // Update file size text to show completion
             selectedFile?.let { uri ->
                 tvFileSize.text = "${formatFileSize(getFileSize(uri))} • Analysis complete"
             }
 
         } else {
-            // Show error state
             updateErrorResults(response.message, processingTimeSeconds)
         }
     }
@@ -299,7 +289,6 @@ class UploadFilesFragment : Fragment() {
         val currentTime = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date())
         tvAnalysisTime.text = "Completed at $currentTime • ${String.format("%.1f", processingTime)}s"
 
-        // Update threat level and visuals
         when {
             threatPercentage < 30 -> {
                 updateThreatLevel("MINIMAL RISK", "#d1e7dd", "#0f5132", R.drawable.ic_shield_check, "#28a745")
@@ -326,20 +315,17 @@ class UploadFilesFragment : Fragment() {
             }
         }
 
-        // Update statistics
         tvThreatPercentage.text = "$threatPercentage% Suspicious"
         tvTotalConnections.text = formatNumber(totalConnections)
         tvNormalTraffic.text = formatNumber(normalCount)
         tvSuspiciousTraffic.text = formatNumber(intrusionCount)
 
-        // Update analysis details
         selectedFile?.let { uri ->
             tvAnalyzedFileName.text = getFileName(uri)
             tvAnalyzedFileSize.text = formatFileSize(getFileSize(uri))
         }
         tvProcessingTime.text = "${String.format("%.1f", processingTime)} seconds"
 
-        // Setup enhanced chart and threat categories
         setupEnhancedPieChart(resultCounts)
         setupThreatCategories(resultCounts)
 
@@ -458,7 +444,6 @@ class UploadFilesFragment : Fragment() {
         }
     }
 
-    // ... (keep all existing helper methods: getFileName, getFileSize, formatFileSize, createTempFileFromInputStream)
 
     private fun getFileName(uri: Uri): String {
         var result: String? = null
@@ -495,7 +480,6 @@ class UploadFilesFragment : Fragment() {
                 }
             }
         } catch (e: Exception) {
-            // Handle case where size cannot be determined
         }
         return size
     }
@@ -529,7 +513,6 @@ class UploadFilesFragment : Fragment() {
     }
 }
 
-// Data classes for enhanced UI
 data class ThreatCategoryItem(
     val category: String,
     val count: Int,
